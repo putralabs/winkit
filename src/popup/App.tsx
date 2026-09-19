@@ -25,7 +25,7 @@ export function PopupApp() {
   return (
     <div className="w-[360px] bg-background p-4 text-foreground">
       <header className="mb-3 flex items-center gap-2.5">
-        <img src={logoUrl} alt="WinKit" className="h-9 w-9 rounded-xl" />
+        <img src={logoUrl} alt="WinKit" className="wk-logo-mark h-9 w-9 rounded-xl" />
         <div>
           <h1 className="text-sm font-extrabold leading-tight tracking-tight">WinKit</h1>
           <p className="text-[10px] font-bold tracking-wider text-muted-foreground">BENCH · {TOOLS.length} TOOLS</p>

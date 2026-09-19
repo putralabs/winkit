@@ -91,7 +91,7 @@ export function Landing() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border bg-background">
         <div className="mx-auto flex w-full max-w-6xl items-center gap-2 px-6 py-3">
-          <img src={logoUrl} alt="WinKit" className="h-9 w-9 rounded-xl" />
+          <img src={logoUrl} alt="WinKit" className="wk-logo-mark h-9 w-9 rounded-xl" />
           <span className="text-base font-extrabold tracking-tight">WinKit</span>
           <nav className="ml-6 hidden gap-5 text-sm font-medium text-muted-foreground sm:flex" aria-label="sections">
             <a href="#bench" className="transition-colors hover:text-foreground">Bench</a>

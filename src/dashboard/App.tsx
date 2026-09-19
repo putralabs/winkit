@@ -196,7 +196,7 @@ export function DashboardApp() {
       {/* Sidebar (PRD §12) */}
       <aside className="hidden w-52 shrink-0 flex-col border-r border-border bg-card/60 p-3 backdrop-blur md:flex">
         <div className="mb-3 flex items-center gap-2.5 px-1.5 pt-1">
-          <img src={logoUrl} alt="WinKit" className="h-9 w-9 rounded-xl" />
+          <img src={logoUrl} alt="WinKit" className="wk-logo-mark h-9 w-9 rounded-xl" />
           <div>
             <p className="text-sm font-extrabold leading-tight tracking-tight">WinKit</p>
             <p className="text-[10px] font-bold tracking-wider text-muted-foreground">BENCH · v0.1.0</p>
