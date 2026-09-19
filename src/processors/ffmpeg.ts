@@ -1,18 +1,40 @@
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
-import coreURLmt from '@ffmpeg/core-mt?url';
-import wasmURLmt from '@ffmpeg/core-mt/wasm?url';
-import workerURLmt from '@ffmpeg/core-mt/worker?url';
-import coreURLst from '@ffmpeg/core-st/dist/ffmpeg-core.js?url';
-import wasmURLst from '@ffmpeg/core-st/dist/ffmpeg-core.wasm?url';
-import workerURLst from '@ffmpeg/core-st/dist/ffmpeg-core.worker.js?url';
 import type { CancelToken, OutputFile, Progress } from '../shared/types';
 import { baseName } from '../shared/validation';
 
 // FFmpeg only runs on the website target: it needs SharedArrayBuffer
-// (multi-thread) or at least a non-extension page (single-thread fallback).
-// Extension pages cannot receive the COOP/COEP headers, so these tools are
-// gated web-only in the registry.
+// (multi-thread). Dev, static server, and hosting all send COOP/COEP, so
+// crossOriginIsolated is always true there. Extension pages cannot receive
+// those headers, so these tools are gated web-only in the registry.
+//
+// The multi-thread core wasm alone is over 25 MB, past static hosting file
+// limits, so it is NOT bundled. It downloads once from CDN, then Cache
+// Storage serves it (offline-capable after the first load).
+
+// Pinned to the last bundled @ffmpeg/core-mt - keep in sync on upgrade.
+const CORE_VER = '0.12.10';
+const CORE_BASE = `https://cdn.jsdelivr.net/npm/@ffmpeg/core-mt@${CORE_VER}/dist/esm`;
+
+/** CDN fetch with Cache Storage: first load needs internet, later loads do not. */
+async function coreBlobUrl(name: string): Promise<string> {
+  const url = `${CORE_BASE}/${name}`;
+  try {
+    const cache = await caches.open('winkit-ffmpeg-core');
+    const hit = await cache.match(url);
+    if (hit) return URL.createObjectURL(await hit.blob());
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('fetch-core');
+    await cache.put(url, res.clone());
+    return URL.createObjectURL(await res.blob());
+  } catch (e) {
+    if ((e as Error)?.message === 'fetch-core') throw e;
+    // No Cache Storage here: straight download, internet required.
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('fetch-core');
+    return URL.createObjectURL(await res.blob());
+  }
+}
 
 let inst: FFmpeg | null = null;
 
@@ -22,12 +44,14 @@ export function ffmpegThreadMode(): 'multi' | 'single' {
 
 async function ensureFFmpeg(): Promise<FFmpeg> {
   if (inst) return inst;
+  if (ffmpegThreadMode() !== 'multi') throw new Error('needs-isolation');
   const ff = new FFmpeg();
-  if (ffmpegThreadMode() === 'multi') {
-    await ff.load({ coreURL: coreURLmt, wasmURL: wasmURLmt, workerURL: workerURLmt });
-  } else {
-    await ff.load({ coreURL: coreURLst, wasmURL: wasmURLst, workerURL: workerURLst });
-  }
+  const [coreURL, wasmURL, workerURL] = await Promise.all([
+    coreBlobUrl('ffmpeg-core.js'),
+    coreBlobUrl('ffmpeg-core.wasm'),
+    coreBlobUrl('ffmpeg-core.worker.js'),
+  ]);
+  await ff.load({ coreURL, wasmURL, workerURL });
   inst = ff;
   return ff;
 }

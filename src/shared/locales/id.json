@@ -105,6 +105,7 @@
   "err.unsupported": "Format file tidak didukung. WinKit belum dapat memproses tipe ini.",
   "err.corrupted": "File tampaknya rusak. Silakan coba file lain.",
   "err.encrypted": "PDF ini diproteksi password. WinKit tidak bisa membuka file terenkripsi - hapus passwordnya dulu.",
+  "err.isolation": "Tool video butuh halaman isolated (SharedArrayBuffer). Serve dengan header COOP/COEP.",
   "err.undecodable": "Browser tidak dapat membaca file ini (misalnya AVI dengan codec lama). Coba file MP4 atau WebM.",
   "err.empty": "File ini kosong.",
   "err.tooLarge": "File ini mungkin membutuhkan memori besar. Coba proses lebih sedikit file.",

@@ -50,7 +50,7 @@ node scripts/make-icons.mjs      # rebuild icons from logo/logo.png
 1. Push to GitHub.
 2. Cloudflare dashboard, Workers and Pages, Create, Pages, Connect to Git.
 3. Build command `npm run build:web`, output directory `dist-web`, Node 20 or newer.
-4. `_headers` is already in the build output, so COOP/COEP headers are sent and FFmpeg runs multi-threaded. To confirm on the live URL, open DevTools and check that `crossOriginIsolated` is `true`.
+4. `_headers` is already in the build output, so COOP/COEP headers are sent and FFmpeg runs multi-threaded. The FFmpeg core itself downloads once from a CDN on first video use, then the browser caches it. To confirm on the live URL, open DevTools and check that `crossOriginIsolated` is `true`.
 5. Any static host works, but without those headers video transcode drops to single-thread. Still works, just slower.
 6. OCR downloads its language data from a CDN on first use, then caches it. Everything else works fully offline.
 

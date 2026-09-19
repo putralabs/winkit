@@ -873,6 +873,8 @@ export function ToolRunner({ tool, settings, onHistoryChange, onPickTool }: Prop
         setError('err.undecodable');
       } else if (msg === 'encrypted') {
         setError('err.encrypted');
+      } else if (msg === 'needs-isolation') {
+        setError('err.isolation');
       } else if (msg === 'unsupported') {
         setError('err.unsupported');
       } else if (msg === 'offline') {

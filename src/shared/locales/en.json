@@ -105,6 +105,7 @@
   "err.unsupported": "Unsupported file format. WinKit cannot process this file type yet.",
   "err.corrupted": "The file appears to be corrupted. Please try another file.",
   "err.encrypted": "This PDF is password-protected. WinKit cannot open encrypted files - remove the password first.",
+  "err.isolation": "Video tools need an isolated page (SharedArrayBuffer). Serve with COOP/COEP headers.",
   "err.undecodable": "Your browser can't decode this file (for example, AVI with an old codec). Try an MP4 or WebM file instead.",
   "err.empty": "This file is empty.",
   "err.tooLarge": "This file may require significant memory. Try processing fewer files at once.",
