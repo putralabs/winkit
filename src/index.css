@@ -1,0 +1,138 @@
+@import "tailwindcss";
+/* Self-hosted font (Fontsource) - no remote fetch, extension-CSP safe. */
+@import "@fontsource/plus-jakarta-sans/300.css";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/plus-jakarta-sans/800.css";
+
+/* WinKit design tokens - source of truth: DESIGN.md */
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-primary: #002bcd;
+  --color-on-primary: #ffffff;
+  --color-secondary: #5b6cff;
+  --color-on-secondary: #000000;
+  --color-accent: #ea580c;
+  --color-on-accent: #000000;
+  --color-background: #f2f4ff;
+  --color-foreground: #111b45;
+  --color-card: #ffffff;
+  --color-card-foreground: #111b45;
+  --color-muted: #e8ecfa;
+  --color-muted-foreground: #4a5678;
+  --color-border: #c5cfff;
+  --color-destructive: #dc2626;
+  --color-on-destructive: #ffffff;
+  --color-ring: #002bcd;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+.dark {
+  --color-background: #0b0f1e;
+  --color-foreground: #f4f6ff;
+  --color-card: #131a33;
+  --color-card-foreground: #f4f6ff;
+  --color-muted: #1a2342;
+  --color-muted-foreground: #a2abcd;
+  --color-border: #26305c;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+::selection {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* Slim scrollbars for panels */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+/* Visible focus for keyboard navigation (PRD §58, MASTER checklist) */
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* ---- Calibration Bench world (seed c2066e22) ----
+   Instrument precision on paper: hairline tick scales, dark readout
+   panels, tabular numerals. Mono is measurement-only, never display. */
+/* Ruler scale for measurement controls only (quality dial, progress).
+   Single axis, always paired with a live numeric readout. */
+.wk-ticks {
+  background-image: repeating-linear-gradient(to right, var(--color-primary) 0 1px, transparent 1px 11px);
+  background-size: 100% 8px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+.wk-readout {
+  background: #0a1330;
+  color: #e8eefc;
+}
+.dark .wk-readout {
+  background: #000000;
+}
+.wk-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+.wk-mono {
+  font-family: ui-monospace, "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+.wk-readout-label {
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8fa3d9;
+}
+@keyframes wk-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes wk-pop {
+  0% { opacity: 0; transform: scale(0.96); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.wk-reveal {
+  opacity: 0;
+}
+.wk-reveal.wk-in {
+  animation: wk-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+/* Display voice: oversized, tight, single world */
+.wk-display {
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  text-wrap: balance;
+}
+.wk-pop {
+  animation: wk-pop 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .wk-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}

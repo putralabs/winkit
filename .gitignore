@@ -1,0 +1,35 @@
+# Deps & build output
+node_modules/
+dist/
+dist-web/
+server/dist/
+server/node_modules/
+
+# Runtime / local data
+.winkit-jobs/
+server/.winkit-jobs/
+.env
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.local
+
+# Impeccable ephemeral state (keep PRODUCT.md, DESIGN.md, design.json)
+.impeccable/hook.cache.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local-only: AI assistant skills, planning docs, design tool state.
+# Kept on disk, never pushed.
+prd.md
+.claude/
+agent/
+.agents/
+.opencode/
+skills-lock.json
+.impeccable/
+design-system/

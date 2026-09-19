@@ -1,0 +1,19 @@
+services:
+  winkit-cloud:
+    build: ./server
+    ports:
+      - "127.0.0.1:8787:8787"
+    environment:
+      PORT: 8787
+      HOST: 0.0.0.0
+      WINKIT_API_KEY: ${WINKIT_API_KEY:?set in .env}
+      DATA_DIR: /data
+      JOB_TTL_MINUTES: 15
+      JOB_CONCURRENCY: 2
+      MAX_UPLOAD_MB: 200
+    volumes:
+      - winkit-jobs:/data
+    restart: unless-stopped
+
+volumes:
+  winkit-jobs:

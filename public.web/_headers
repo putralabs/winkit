@@ -1,0 +1,7 @@
+/*
+  Netlify-style headers so ffmpeg.wasm gets SharedArrayBuffer.
+  Vercel equivalent lives in vercel.json at the project root.
+*/
+/*:
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
