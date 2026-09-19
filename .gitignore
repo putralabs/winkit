@@ -22,6 +22,7 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+.wrangler/
 
 # Local-only: AI assistant skills, planning docs, design tool state.
 # Kept on disk, never pushed.
